@@ -1,10 +1,11 @@
 import { useState } from 'react';
 import axios from 'axios';
 import { useNavigate, Link } from 'react-router-dom';
-import './Auth.css'; // <--- ВОТ ЭТА СТРОКА САМАЯ ВАЖНАЯ!
+import './Auth.css';
 
 function Register() {
   const [username, setUsername] = useState('');
+  const [email, setEmail] = useState(''); // Новое состояние для email
   const [password, setPassword] = useState('');
   const navigate = useNavigate();
 
@@ -13,12 +14,13 @@ function Register() {
     try {
       await axios.post('http://127.0.0.1:8000/api/register/', {
         username: username,
+        email: email, // Передаем email
         password: password
       });
       alert("Успішно! Тепер увійдіть.");
       navigate('/login');
     } catch (error) {
-      alert("Помилка реєстрації. Спробуйте інший логін.");
+      alert("Помилка реєстрації. Спробуйте інший логін або email.");
     }
   };
 
@@ -42,6 +44,16 @@ function Register() {
                 value={username}
                 onChange={(e) => setUsername(e.target.value)}
                 placeholder="Ваш унікальний нікнейм"
+                required
+              />
+            </div>
+            <div style={{marginBottom: '20px'}}>
+              <label>Email</label>
+              <input 
+                type="email" 
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                placeholder="Ваша електронна пошта"
                 required
               />
             </div>

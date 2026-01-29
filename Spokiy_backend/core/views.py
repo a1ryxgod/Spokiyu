@@ -1,6 +1,7 @@
 from rest_framework import viewsets, generics, permissions
-from .models import MoodRecord, Recommendation
-from .serializers import MoodRecordSerializer, UserSerializer
+from rest_framework.permissions import IsAdminUser
+from .models import MoodRecord, Recommendation, SentimentWord
+from .serializers import MoodRecordSerializer, UserSerializer, RecommendationSerializer, SentimentWordSerializer
 from django.contrib.auth.models import User
 
 # 1. Реєстрація нового користувача
@@ -32,3 +33,26 @@ class MoodRecordViewSet(viewsets.ModelViewSet):
         else:
             response.data['recommendation'] = "Раді, що у вас гарний настрій!"
         return response
+
+
+# 3. АДМИНКА: Управління користувачами (тільки для адмінів)
+class AdminUserViewSet(viewsets.ModelViewSet):
+    """ViewSet для управління користувачами (тільки для адмінів)"""
+    queryset = User.objects.all()
+    serializer_class = UserSerializer
+    permission_classes = [IsAdminUser]  # Тільки адміни (is_staff=True)
+
+
+# 4. АДМИНКА: Управління рекомендаціями (тільки для адмінів)
+class AdminRecommendationViewSet(viewsets.ModelViewSet):
+    """ViewSet для управління рекомендаціями (тільки для адмінів)"""
+    queryset = Recommendation.objects.all()
+    serializer_class = RecommendationSerializer
+    permission_classes = [IsAdminUser]  # Тільки адміни (is_staff=True)
+
+# 5. АДМИНКА: Управління словником тональності
+class AdminSentimentWordViewSet(viewsets.ModelViewSet):
+    """ViewSet для управління словником тональності (тільки для адмінів)"""
+    queryset = SentimentWord.objects.all()
+    serializer_class = SentimentWordSerializer
+    permission_classes = [IsAdminUser]

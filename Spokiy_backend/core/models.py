@@ -30,6 +30,14 @@ class TherapySession(models.Model):
     def __str__(self):
         return f"Сеанс {self.user.username} на {self.date_time}"
 
+# --- Таблиця слів для аналізу тональності ---
+class SentimentWord(models.Model):
+    word = models.CharField(max_length=100, unique=True, verbose_name="Слово або фраза")
+    score = models.FloatField(verbose_name="Вага (-1.0 до 1.0)")
+
+    def __str__(self):
+        return f"{self.word} ({self.score})"
+
 # --- Таблиця Записів Настрою (З NLP) ---
 class MoodRecord(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE, null=True, blank=True)

@@ -1,33 +1,31 @@
-"""
-URL configuration for config project.
-
-The `urlpatterns` list routes URLs to views. For more information please see:
-    https://docs.djangoproject.com/en/5.2/topics/http/urls/
-Examples:
-Function views
-    1. Add an import:  from my_app import views
-    2. Add a URL to urlpatterns:  path('', views.home, name='home')
-Class-based views
-    1. Add an import:  from other_app.views import Home
-    2. Add a URL to urlpatterns:  path('', Home.as_view(), name='home')
-Including another URLconf
-    1. Import the include() function: from django.urls import include, path
-    2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
-"""
 from django.contrib import admin
 from django.urls import path, include
 from rest_framework.routers import DefaultRouter
-from rest_framework.authtoken.views import obtain_auth_token # Готова вюха для логіну
-from core.views import MoodRecordViewSet, RegisterView
+from rest_framework.authtoken.views import obtain_auth_token
+from core.views import (
+    MoodRecordViewSet, 
+    RegisterView,
+    AdminUserViewSet,
+    AdminRecommendationViewSet,
+    AdminSentimentWordViewSet
+)
 
+# Основной роутер
 router = DefaultRouter()
 router.register(r'mood-records', MoodRecordViewSet, basename='moodrecord')
+
+# Админский роутер
+admin_router = DefaultRouter()
+admin_router.register(r'users', AdminUserViewSet, basename='admin-users')
+admin_router.register(r'recommendations', AdminRecommendationViewSet, basename='admin-recommendations')
+admin_router.register(r'sentiment-words', AdminSentimentWordViewSet, basename='admin-sentiment-words')
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('api/', include(router.urls)),
+    path('api/admin/', include(admin_router.urls)),
     
     # Auth endpoints
-    path('api/register/', RegisterView.as_view(), name='register'), # Реєстрація
-    path('api/login/', obtain_auth_token, name='login'),            # Вхід (отримання токена)
+    path('api/register/', RegisterView.as_view(), name='register'),
+    path('api/login/', obtain_auth_token, name='login'),
 ]
