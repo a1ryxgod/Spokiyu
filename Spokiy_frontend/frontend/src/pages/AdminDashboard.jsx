@@ -326,14 +326,20 @@ function AdminDashboard() {
                   className="input-admin" 
                   placeholder="Нове слово..." 
                   value={newWord}
-                  onChange={e => setNewWord(e.target.value)}
+                  onChange={e => {
+                      console.log('newWord onChange:', e.target.value);
+                      setNewWord(e.target.value);
+                  }}
                 />
                 <input 
                   className="input-admin" 
                   placeholder="Вага (-1.0 ... 1.0)" 
                   type="number" step="0.1" min="-1" max="1"
                   value={newScore}
-                  onChange={e => setNewScore(e.target.value)}
+                  onChange={e => {
+                      console.log('newScore onChange:', e.target.value);
+                      setNewScore(e.target.value);
+                  }}
                 />
                 <button type="submit" className="btn-primary"><Plus size={18}/> Додати</button>
               </form>
