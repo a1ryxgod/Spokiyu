@@ -1,81 +1,92 @@
-/* --- ГЛОБАЛЬНЫЕ ПЕРЕМЕННЫЕ (FIXED) --- */
+/* --- PREMIUM GLOBAL VARIABLES --- */
 :root {
-  /* Спокойная палитра "Forest & Sage" */
-  --primary-color: #2D6A4F;       /* Глубокий лесной (вместо #2E7D32) */
-  --accent-color: #40916C;        /* Шалфей (вместо кислотного #4CAF50) */
+  /* Colors - "Zen Teal & Slate" */
+  --primary-color: #0d9488;       /* Teal 600 - vibrant but calm */
+  --primary-dark: #0f766e;        /* Teal 700 */
+  --accent-color: #14b8a6;        /* Teal 500 */
   
-  /* Фон: Мятно-белый, убирает ощущение пересвета */
-  --bg-color: #F4F7F5;            
+  --bg-color: #f8fafc;            /* Slate 50 - crisp off-white */
+  --bg-secondary: #f1f5f9;        /* Slate 100 */
   
-  /* Текст: Угольный, не черный */
-  --text-main: #1B4332;           
-  --text-secondary: #52665A;      
+  --text-main: #0f172a;           /* Slate 900 - rich dark blue-grey */
+  --text-secondary: #475569;      /* Slate 600 */
+  --text-tertiary: #94a3b8;       /* Slate 400 */
   
-  /* Карточки и инпуты */
-  --card-bg: #FFFFFF;
-  --card-border: 1px solid rgba(0,0,0,0.04);
-  --input-bg: #FFFFFF;
-  --input-border: #D8E2DC;        /* Мягкий серый */
+  /* Surfaces & Glass */
+  --card-bg: rgba(255, 255, 255, 0.85);
+  --card-border: 1px solid rgba(255, 255, 255, 0.9);
+  --input-bg: rgba(255, 255, 255, 0.8);
+  --input-border: #e2e8f0;        /* Slate 200 */
   
-  --nav-bg: rgba(255, 255, 255, 0.98);
-  --nav-border: #E8F5E9;
+  --nav-bg: rgba(255, 255, 255, 0.75);
+  --nav-border: rgba(255, 255, 255, 0.4);
   
-  /* Тени: Нейтральные серые (убрали зеленые тени) */
-  --shadow-sm: 0 4px 12px rgba(0,0,0,0.05);
-  --shadow-md: 0 10px 30px rgba(0,0,0,0.08);
+  /* Refined Shadows */
+  --shadow-sm: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -2px rgba(0, 0, 0, 0.025);
+  --shadow-md: 0 10px 15px -3px rgba(0, 0, 0, 0.05), 0 4px 6px -4px rgba(0, 0, 0, 0.025);
+  --shadow-lg: 0 20px 25px -5px rgba(0, 0, 0, 0.05), 0 8px 10px -6px rgba(0, 0, 0, 0.025);
+  --shadow-glow: 0 10px 30px -5px rgba(13, 148, 136, 0.3);
   
-  --success-bg: #D8F3DC;
-  --success-text: #1B4332;
+  --success-bg: #ecfdf5;
+  --success-text: #065f46;
+  
+  /* Typography */
+  --font-heading: 'Outfit', sans-serif;
+  --font-body: 'Plus Jakarta Sans', sans-serif;
 }
 
-/* --- ТЕМНАЯ ТЕМА (Скорректирована под спокойный тон) --- */
+/* --- DARK THEME ("Midnight Jade") --- */
 body.dark-mode {
-  --bg-color: #121212;
-  --card-bg: #1E1E1E;
-  --card-border: 1px solid #333333;
-  --text-main: #E0E0E0;
-  --text-secondary: #A0A0A0;
-  --primary-color: #52B788;       /* Светлее для темной темы, но не неон */
-  --accent-color: #74C69D;
-  --input-bg: #2C2C2C;
-  --input-border: #424242;
-  --nav-bg: rgba(30, 30, 30, 0.95);
-  --nav-border: #333333;
-  --shadow-sm: 0 4px 12px rgba(0,0,0,0.4);
-  --shadow-md: 0 10px 30px rgba(0,0,0,0.5);
-  --success-bg: #1B3320;
-  --success-text: #A5D6A7;
+  --bg-color: #0b1120;            /* Very dark blue, almost black */
+  --bg-secondary: #0f172a;
+  
+  --card-bg: rgba(15, 23, 42, 0.7);
+  --card-border: 1px solid rgba(255, 255, 255, 0.05);
+  
+  --text-main: #f8fafc;
+  --text-secondary: #94a3b8;
+  --text-tertiary: #64748b;
+  
+  --primary-color: #2dd4bf;       /* Teal 400 - luminous */
+  --primary-dark: #14b8a6;
+  --accent-color: #5eead4;
+  
+  --input-bg: rgba(15, 23, 42, 0.5);
+  --input-border: rgba(255, 255, 255, 0.1);
+  
+  --nav-bg: rgba(11, 17, 32, 0.85);
+  --nav-border: rgba(255, 255, 255, 0.05);
+  
+  --shadow-sm: 0 4px 6px -1px rgba(0, 0, 0, 0.3);
+  --shadow-md: 0 10px 15px -3px rgba(0, 0, 0, 0.4);
+  --shadow-lg: 0 20px 25px -5px rgba(0, 0, 0, 0.5);
+  --shadow-glow: 0 10px 30px -5px rgba(45, 212, 191, 0.2);
 }
 
-/* --- ЛЕНДИНГ ВСЕГДА СВЕТЛЫЙ --- */
+/* Landing exception for dark mode if we want dark landing too? Let's just map it */
 body.dark-mode .landing-view {
-  --bg-color: #F4F7F5;
-  --card-bg: #FFFFFF;
-  --card-border: 1px solid transparent;
-  --text-main: #1B4332;
-  --text-secondary: #52665A;
-  --primary-color: #2D6A4F;
-  --accent-color: #40916C;
+  /* Using standard dark mode vars for landing */
+  color: var(--text-main);
 }
 
-/* --- ГЛОБАЛЬНЫЕ СБРОСЫ --- */
-/* В index.css */
+/* --- RESETS & TYPOGRAPHY --- */
 body {
   margin: 0;
   padding: 0;
-  font-family: 'Inter', 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+  font-family: var(--font-body);
+  color: var(--text-main);
+  background-color: var(--bg-color);
+  /* Subtle light spots for depth */
+  background-image: 
+    radial-gradient(circle at 10% 20%, rgba(13, 148, 136, 0.03) 0%, transparent 40%),
+    radial-gradient(circle at 90% 80%, rgba(13, 148, 136, 0.03) 0%, transparent 40%);
+  background-attachment: fixed;
   line-height: 1.6;
   -webkit-font-smoothing: antialiased;
-  transition: background-color 0.3s ease, color 0.3s ease;
-  
-  /* --- НОВЫЙ ФОН --- */
-  color: var(--text-main);
-  /* Мягкий радиальный градиент: светлый центр, чуть темнее края. 
-     Это создает эффект виньетки и фокусирует взгляд на центре. */
-  background: radial-gradient(circle at 50% 0%, #ffffff 0%, #F0F4F2 100%);
-  background-attachment: fixed; /* Фон стоит на месте при прокрутке - дорогой эффект */
+  -moz-osx-font-smoothing: grayscale;
+  transition: background-color 0.4s ease, color 0.4s ease;
   min-height: 100vh;
-  overflow-x: hidden; /* Обрезает всё, что вылезает за ширину экрана */
+  overflow-x: hidden;
 }
 
 #root {
@@ -84,179 +95,214 @@ body {
   flex-direction: column;
 }
 
-button {
-  font-family: inherit;
+/* Headings */
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-heading);
+  color: var(--text-main); /* Deep color */
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  margin-top: 0;
 }
 
-/* --- ОБЩИЕ ЭЛЕМЕНТЫ --- */
-.card, .menu-card, .history-card, .form-card, .timeline-day, .timeline-entry, 
-.feature-card, .stat-item, .audience-card, .faq-item {
-  background-color: var(--card-bg) !important;
+/* Specifically for h1-h2 highlight words */
+h1 span, h2 span, .brand-highlight {
+  background: linear-gradient(135deg, var(--primary-color), var(--accent-color));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  display: inline-block;
+}
+
+/* Smooth Links */
+a {
+  color: var(--primary-color);
+  text-decoration: none;
+  transition: all 0.2s ease;
+}
+
+/* --- GLASS SURFACES --- */
+.card, .form-card, .history-card, .widget-card, 
+.stat-item, .audience-card, .feature-card, .testimonial-card, .timeline-entry {
+  background: var(--card-bg) !important;
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
   border: var(--card-border) !important;
+  border-radius: 28px; /* Luxury soft corners */
+  box-shadow: var(--shadow-md);
   color: var(--text-main) !important;
-  transition: transform 0.2s, box-shadow 0.2s;
+  transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.4s ease;
 }
 
-.navbar {
-  background-color: var(--nav-bg) !important;
-  border-bottom: 1px solid var(--nav-border) !important;
-  backdrop-filter: blur(10px); /* Добавляет красивое размытие фона */
+.card:hover, .form-card:hover, .stat-item:hover, .audience-card:hover, .feature-card:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--shadow-lg);
 }
-.navbar-brand { color: var(--primary-color) !important; font-weight: 800; }
+
+/* Navbar overrides */
+.navbar {
+  background: var(--nav-bg) !important;
+  backdrop-filter: blur(24px) saturate(180%);
+  -webkit-backdrop-filter: blur(24px) saturate(180%);
+  border-bottom: 1px solid var(--nav-border) !important;
+  box-shadow: var(--shadow-sm);
+  padding: 1.25rem 2rem;
+  transition: all 0.3s ease;
+}
+.navbar-brand { 
+  font-family: var(--font-heading) !important;
+  color: var(--text-main) !important; 
+  font-weight: 800; 
+  letter-spacing: -0.03em;
+  font-size: 1.5rem;
+}
 .navbar-links a { color: var(--text-secondary) !important; font-weight: 500; }
 .navbar-links a:hover { color: var(--primary-color) !important; }
 
-input, textarea, select {
-  background-color: var(--input-bg) !important;
-  color: var(--text-main) !important;
-  border: 1px solid var(--input-border) !important; /* Тоньше границы */
-  border-radius: 12px !important;
-}
-input:focus, textarea:focus { 
-  border-color: var(--accent-color) !important;
-  box-shadow: 0 0 0 4px rgba(64, 145, 108, 0.1); /* Мягкое свечение вместо жесткой границы */
-  outline: none;
+/* --- PREMIUM BUTTONS --- */
+button, .btn {
+  font-family: var(--font-body);
 }
 
-/* ЗАГОЛОВКИ: Убрали text-shadow и сменили цвет */
-h1, h2, h3, h4, h5, h6 {
-  color: var(--primary-color) !important; /* Используем переменную */
-  font-weight: 800;
-  letter-spacing: -0.02em;
-  text-shadow: none !important; /* УБРАЛИ МЫЛО */
-  background: none;
-}
-
-/* --- КНОПКИ (ИСПРАВЛЕНЫ) --- */
-
-/* Основная кнопка: Убрали кислотный градиент, сделали глубокий зеленый */
-.btn-primary, .submit-btn, .read-more-btn {
-  background: linear-gradient(135deg, #2D6A4F 0%, #40916C 100%); /* Forest Gradient */
-  color: #FFFFFF !important; /* Белый текст! */
-  padding: 15px 32px;
-  border-radius: 14px; /* Чуть меньше скругление, выглядит строже */
-  font-weight: 700;
-  font-size: 1.1rem;
+.btn-primary, .submit-btn, form button[type="submit"], .nav-btn, .read-more-btn {
+  background: var(--primary-color) !important;
+  color: #ffffff !important;
+  padding: 14px 32px !important;
+  border-radius: 100px !important; /* Pill shape for luxury feel */
+  font-weight: 600 !important;
+  font-size: 1.05rem !important;
   letter-spacing: 0.01em;
-  box-shadow: 0 8px 20px rgba(45, 106, 79, 0.25); /* Тень в тон кнопки, но темная */
-  border: none;
-  outline: none;
-  transition: all 0.2s ease;
+  border: none !important;
+  box-shadow: var(--shadow-glow) !important;
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1) !important;
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  gap: 10px;
+  gap: 8px;
+  cursor: pointer;
+  text-decoration: none;
 }
 
-.btn-primary:hover, .submit-btn:hover, .read-more-btn:hover {
-  background: linear-gradient(135deg, #40916C 0%, #2D6A4F 100%);
-  transform: translateY(-2px);
-  box-shadow: 0 12px 25px rgba(45, 106, 79, 0.35);
-  color: #FFFFFF !important;
+.btn-primary:hover, .submit-btn:hover, form button[type="submit"]:hover, .nav-btn:hover, .read-more-btn:hover {
+  background: var(--primary-dark) !important;
+  transform: translateY(-2px) !important;
+  box-shadow: 0 15px 35px -5px rgba(13, 148, 136, 0.4) !important;
+  color: #ffffff !important;
+  text-decoration: none;
 }
 
 .btn-primary:active, .submit-btn:active {
-  transform: translateY(0);
+  transform: translateY(0) !important;
+  box-shadow: var(--shadow-sm) !important;
 }
 
-/* Белая кнопка */
-.btn-white {
-  background: #fff;
-  color: var(--primary-color) !important; /* Темно-зеленый текст */
-  padding: 17px 38px;
-  border-radius: 50px;
-  font-weight: 700;
-  font-size: 1.1rem;
-  box-shadow: var(--shadow-sm);
-  border: 1px solid transparent;
-  transition: all 0.2s;
-  display: inline-block;
-}
-.btn-white:hover {
-  background: #fff;
-  color: var(--accent-color) !important;
-  transform: translateY(-2px);
-  box-shadow: var(--shadow-md);
-}
-
-/* Контурная кнопка: Убрали неон */
 .btn-outline {
-  background: transparent;
-  color: var(--primary-color) !important;
-  border: 2px solid var(--primary-color); /* Темно-зеленая рамка */
-  padding: 15px 36px;
-  border-radius: 50px;
-  font-weight: 700;
-  font-size: 1.1rem;
-  transition: all 0.2s;
-  display: inline-block;
+  background: transparent !important;
+  color: var(--text-main) !important;
+  border: 1px solid var(--text-tertiary) !important;
+  padding: 14px 32px !important;
+  border-radius: 100px !important;
+  font-weight: 600 !important;
+  transition: all 0.3s ease !important;
+  display: inline-flex;
+  align-items: center;
+  cursor: pointer;
+  text-decoration: none;
 }
 .btn-outline:hover {
-  background: var(--primary-color);
-  color: #FFFFFF !important; /* Становится залитой при наведении */
-  border-color: var(--primary-color);
+  border-color: var(--primary-color) !important;
+  color: var(--primary-color) !important;
+  background: rgba(13, 148, 136, 0.05) !important;
+  box-shadow: var(--shadow-sm) !important;
 }
 
-/* Маленькая кнопка */
+.btn-white {
+  background: var(--text-main) !important;
+  color: var(--bg-color) !important;
+  padding: 16px 36px !important;
+  border-radius: 100px !important;
+  font-weight: 600 !important;
+  box-shadow: var(--shadow-lg) !important;
+  border: none !important;
+  transition: all 0.3s ease !important;
+  display: inline-flex;
+  cursor: pointer;
+  text-decoration: none;
+}
+body.dark-mode .btn-white {
+  background: #ffffff !important;
+  color: #000000 !important;
+}
+.btn-white:hover {
+  transform: translateY(-3px) !important;
+  box-shadow: 0 20px 40px -5px rgba(0,0,0,0.2) !important;
+}
+
 .btn-small {
-  background: var(--primary-color); /* Сплошной цвет чище на мелких элементах */
-  color: #FFFFFF;
-  padding: 10px 20px;
-  border-radius: 10px;
-  font-size: 0.95rem;
-  font-weight: 600;
-  transition: background 0.2s;
+  background: rgba(13, 148, 136, 0.1) !important;
+  color: var(--primary-dark) !important;
+  padding: 8px 20px !important;
+  border-radius: 50px !important;
+  font-weight: 600 !important;
+  font-size: 0.9rem !important;
+  border: none !important;
+  transition: all 0.2s ease !important;
+  display: inline-flex;
+  text-decoration: none;
+}
+body.dark-mode .btn-small {
+  color: var(--primary-color) !important;
 }
 .btn-small:hover {
-  background: var(--accent-color);
+  background: var(--primary-color) !important;
+  color: #fff !important;
+  transform: translateY(-1px) !important;
 }
 
-/* --- ФИКСЫ ДЛЯ ДНЕВНИКА --- */
-body.dark-mode .timeline-entry p,
-body.dark-mode .history-text,
-body.dark-mode .entry-text {
-  color: var(--text-main) !important;
+/* Text Buttons */
+.btn-text {
+  color: var(--primary-color);
+  font-weight: 600;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+  transition: opacity 0.2s, transform 0.2s;
 }
-body.dark-mode .timeline-entry span {
-  color: var(--text-secondary);
-}
-body.dark-mode .day-header-sticky {
-  background-color: var(--bg-color) !important;
-  border-bottom: 1px solid #333;
-}
-body.dark-mode .day-date-title {
-  background-color: var(--card-bg) !important;
-  color: var(--text-main) !important;
-  border-color: #333;
-}
-body.dark-mode .timeline-day::before {
-  background-color: #333;
-}
-button[type="submit"],
-.btn-primary,
-.submit-btn,
-.nav-btn,
-form button {
-  background: #2D6A4F !important; /* Глубокий зеленый */
-  background-image: none !important; /* Убиваем градиенты */
-  color: #FFFFFF !important;      /* Белый текст */
-  border: none !important;
-  box-shadow: 0 4px 14px rgba(45, 106, 79, 0.3) !important; /* Зеленая тень */
-  text-shadow: none !important;   /* Убираем мыло с текста */
-  font-weight: 700 !important;
-  padding: 16px 32px !important;
-  border-radius: 12px !important;
-  transition: all 0.2s ease !important;
+.btn-text:hover {
+  opacity: 0.8;
+  transform: translateX(4px); /* subtle right movement */
 }
 
-/* Эффект при наведении */
-button[type="submit"]:hover,
-.btn-primary:hover,
-.submit-btn:hover,
-.nav-btn:hover,
-form button:hover {
-  background: #1B4332 !important; /* Еще темнее */
-  transform: translateY(-2px) !important;
-  box-shadow: 0 8px 20px rgba(45, 106, 79, 0.4) !important;
-  color: #FFFFFF !important;
+/* --- FORMS & INPUTS --- */
+input, textarea, select {
+  font-family: var(--font-body);
+  background: var(--input-bg) !important;
+  color: var(--text-main) !important;
+  border: 1px solid var(--input-border) !important;
+  border-radius: 16px !important;
+  padding: 16px 20px !important;
+  font-size: 1rem;
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  width: 100%;
+  box-sizing: border-box;
+  box-shadow: inset 0 2px 4px rgba(0,0,0,0.02);
+}
+input:focus, textarea:focus {
+  border-color: var(--primary-color) !important;
+  box-shadow: 0 0 0 4px rgba(13, 148, 136, 0.15), inset 0 2px 4px rgba(0,0,0,0.02) !important;
+  outline: none;
+  background: var(--card-bg) !important;
+}
+input::placeholder, textarea::placeholder {
+  color: var(--text-tertiary) !important;
+}
+
+/* Small fixes */
+.empty-state {
+  text-align: center;
+  padding: 40px 20px;
+  color: var(--text-tertiary);
+  font-weight: 500;
 }
