@@ -21,240 +21,240 @@
   text-shadow: 0 2px 14px rgba(46,125,50,0.10);
 }
 
-/* --- КАРТКИ З ЦИФРАМИ --- */
-.stats-summary-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-  gap: 25px;
-  margin-bottom: 40px;
+/* frontend/src/pages/Stats.css - CLINICAL ENTERPRISE DASHBOARD */
+
+.clinical-dashboard-wrapper {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 40px 20px 80px 20px;
+  font-family: 'Inter', system-ui, sans-serif;
+  background-color: #F8FAFC; /* Slate 50 */
+  min-height: 100vh;
 }
 
-.summary-card {
-  background: white;
-  border-radius: 20px;
-  padding: 30px;
-  text-align: center;
-  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
-  transition: transform 0.2s;
-  border: 1px solid rgba(0, 0, 0, 0.02);
+/* Typography Utilities */
+.mono {
+  font-family: 'IBM Plex Mono', 'Courier New', monospace;
+  letter-spacing: -0.5px;
 }
 
-.summary-card:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.08);
+/* Header Section */
+.clinical-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 32px;
+  border-bottom: 2px solid #E2E8F0; /* Slate 200 */
+  padding-bottom: 24px;
 }
 
-.summary-value {
-  font-size: 3rem;
-  margin: 0 0 10px 0;
-  font-weight: 800;
-  color: #333;
-  line-height: 1;
-}
-
-.summary-value.good { color: #4CAF50; }
-.summary-value.bad { color: #EF5350; }
-.summary-value.neutral { color: #FF9800; }
-
-.summary-label {
-  margin: 0;
-  color: #777;
-  font-size: 1rem;
+.clinical-title {
+  margin: 0 0 8px 0;
+  font-size: 1.75rem;
+  font-weight: 700;
+  color: #0F172A; /* Slate 900 */
+  letter-spacing: -0.5px;
   text-transform: uppercase;
-  letter-spacing: 1px;
+}
+
+.clinical-subtitle {
+  margin: 0;
+  color: #64748B; /* Slate 500 */
+  font-size: 0.9rem;
+  font-weight: 500;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.mono-badge {
+  font-family: 'IBM Plex Mono', monospace;
+  background: #E2E8F0;
+  padding: 2px 8px;
+  border-radius: 4px;
+  color: #334155;
+  font-size: 0.8rem;
   font-weight: 600;
 }
 
-.summary-card .read-more-btn, .logout-btn {
-  background: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%);
-  color: #205c3b;
-  border-radius: 12px;
-  font-weight: 700;
-  font-size: 1rem;
-  box-shadow: 0 4px 14px rgba(67,233,123,0.13);
-  transition: background 0.2s, box-shadow 0.2s;
-}
-.summary-card .read-more-btn:hover, .logout-btn:hover {
-  background: linear-gradient(135deg, #38f9d7 0%, #43e97b 100%);
-  color: #205c3b;
-}
-
-/* --- ГРАФІК --- */
-.chart-card {
-  background: white;
-  border-radius: 24px;
-  padding: 30px;
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.06);
-  margin-bottom: 40px;
-  position: relative;
-  min-height: 300px;
+.clinical-btn {
+  background: #FFFFFF;
+  border: 1px solid #CBD5E1;
+  color: #0F172A;
+  font-family: 'Inter', sans-serif;
+  font-weight: 600;
+  font-size: 0.85rem;
+  padding: 8px 16px;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background 0.2s, border-color 0.2s;
+  box-shadow: 0 1px 2px rgba(0,0,0,0.05);
 }
 
-/* --- БЛОКИ ПОПЕРЕДЖЕНЬ --- */
-.alert-card {
-  border-radius: 20px;
-  padding: 30px;
-  margin-bottom: 30px;
-  position: relative;
-  overflow: hidden;
+.clinical-btn:hover {
+  background: #F1F5F9;
+  border-color: #94A3B8;
 }
 
-.alert-card.critical {
-  background-color: #FFEBEE;
-  border-left: 8px solid #D32F2F;
+/* Main Grid Layout */
+.clinical-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 24px;
 }
 
-.alert-card.warning {
-  background-color: #FFF3E0;
-  border-left: 8px solid #FF9800;
-}
-
-.alert-header {
-  margin-top: 0;
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  font-size: 1.4rem;
-  font-weight: bold;
-}
-
-.alert-card.critical .alert-header { color: #D32F2F; }
-.alert-card.warning .alert-header { color: #E65100; }
-
-.alert-text {
-  color: #444;
-  font-size: 1.1rem;
-  line-height: 1.6;
-  margin-bottom: 25px;
-}
-
-/* Внутрішній блок рекомендацій - ОНОВЛЕНИЙ */
-.recommendations-box {
-  background: white;
-  padding: 25px;
-  border-radius: 16px;
-  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
-  border: 1px solid rgba(0,0,0,0.03);
-}
-
-.rec-title {
-  margin-top: 0;
-  color: #1B5E20;
-  font-size: 1.1rem;
-  font-weight: 700;
-  margin-bottom: 20px;
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  text-transform: uppercase;
-  letter-spacing: 0.5px;
-  border-bottom: 2px solid #E8F5E9;
-  padding-bottom: 10px;
-}
-
-/* Список порад (КАРТКИ) */
-.rec-list {
+/* Base Clinical Card Layer */
+.clinical-card {
+  background: #FFFFFF;
+  border: 1px solid #E2E8F0;
+  border-radius: 6px;
+  box-shadow: 0 1px 3px rgba(15, 23, 42, 0.05); /* very subtle, hard shadow */
+  padding: 20px;
   display: flex;
   flex-direction: column;
-  gap: 15px;
-  list-style: none;
-  padding: 0;
+}
+
+.card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid #F1F5F9;
+  padding-bottom: 12px;
+  margin-bottom: 16px;
+}
+
+.card-header h2 {
   margin: 0;
-}
-
-.rec-item {
-  background: #F9FAFB;
-  border: 1px solid #EEE;
-  border-radius: 12px;
-  padding: 16px;
-  transition: all 0.2s ease;
-  position: relative;
-  padding-left: 20px;
-}
-
-.rec-item::before {
-  content: '';
-  position: absolute;
-  left: 0;
-  top: 0;
-  bottom: 0;
-  width: 4px;
-  background: #4CAF50; /* Зелена смужка зліва */
-  border-radius: 4px 0 0 4px;
-}
-
-.rec-item:hover {
-  background: #F1F8E9;
-  transform: translateX(5px);
-  box-shadow: 0 4px 10px rgba(0,0,0,0.05);
-}
-
-.rec-item h5 {
-  margin: 0 0 6px 0;
-  font-size: 1.05rem;
-  color: #2E7D32;
+  font-size: 0.85rem;
   font-weight: 700;
-  display: flex;
-  align-items: center;
-  gap: 8px;
+  color: #475569;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
 }
 
-.rec-item p {
-  margin: 0;
-  color: #555;
-  font-size: 0.95rem;
-  line-height: 1.5;
+.status-indicator {
+  font-size: 0.75rem;
+  font-family: 'IBM Plex Mono', monospace;
+  color: #10B981;
+  font-weight: 600;
 }
 
-/* Контакти допомоги (оформлені як плитки) */
-.help-list {
-  list-style: none;
-  padding: 0;
-  margin: 0;
-}
+/* Grid Spans */
+.span-2 { grid-column: span 2; }
 
-.help-list li {
-  background: #FAFAFA;
-  border: 1px solid #EEEEEE;
-  padding: 12px 15px;
-  border-radius: 10px;
-  margin-bottom: 10px;
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  color: #333;
-  font-size: 1rem;
-  transition: all 0.2s;
-}
-
-.help-list li:hover {
-  background: #FFEBEE;
-  border-color: #FFCDD2;
-  transform: translateX(5px);
-}
-
-.help-icon {
-  font-size: 1.4rem;
-}
-
-/* Сетка для дополнительных графиков */
-.dashboard-grid {
+/* KPI Panel (Horizontal inside 1 column) */
+.kpi-panel {
+  grid-column: span 3;
   display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 30px;
-  margin-bottom: 40px;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 24px;
+  padding: 0;
+  background: transparent;
+  border: none;
+  box-shadow: none;
 }
 
-@media (max-width: 768px) {
-  .dashboard-grid {
-    grid-template-columns: 1fr;
-  }
+.kpi-box {
+  background: #FFFFFF;
+  border: 1px solid #E2E8F0;
+  border-top: 4px solid #334155;
+  border-radius: 4px;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
 }
 
-/* Завантаження */
-.loading-state {
+.kpi-label {
+  font-size: 0.75rem;
+  color: #64748B;
+  font-weight: 700;
+  margin-bottom: 8px;
+}
+
+.kpi-value {
+  font-size: 2.2rem;
+  color: #0F172A;
+  font-weight: 700;
+  line-height: 1;
+  margin-bottom: 12px;
+}
+
+.kpi-trend {
+  font-size: 0.8rem;
+  font-weight: 600;
+  display: inline-flex;
+  padding: 4px 8px;
+  border-radius: 4px;
+  width: max-content;
+}
+
+.kpi-trend.stable { background: #ECFDF5; color: #059669; }
+.kpi-trend.neutral { background: #F8FAFC; color: #475569; border: 1px solid #E2E8F0;}
+.kpi-trend.critical { background: #FEF2F2; color: #DC2626; }
+
+/* Diagnosis Box */
+.diagnosis-card {
+  grid-column: span 1;
+}
+
+.diagnosis-content {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.diagnosis-row {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  border-bottom: 1px dashed #E2E8F0;
+  padding-bottom: 12px;
+}
+.diagnosis-row:last-child {
+  border-bottom: none;
+  padding-bottom: 0;
+}
+
+.diag-key {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 0.75rem;
+  color: #64748B;
+  font-weight: 600;
+}
+
+.diag-val {
+  font-size: 0.9rem;
+  line-height: 1.5;
+  color: #1E293B;
+}
+
+.diag-val.stable-text { color: #059669; font-weight: 700; }
+.diag-val.critical-text { color: #DC2626; font-weight: 700; }
+
+
+/* Chart Layouts */
+.monitoring-card { grid-column: span 3; }
+
+.factor-card { grid-column: span 2; }
+.dist-card { grid-column: span 1; }
+
+.clinical-loading {
+  font-family: 'IBM Plex Mono', monospace;
+  color: #94A3B8;
+  font-size: 0.85rem;
   text-align: center;
-  color: #888;
-  padding: 50px;
-  font-size: 1.2rem;
+  padding: 40px 0;
+}
+
+/* Responsiveness for high data density */
+@media (max-width: 1024px) {
+  .clinical-grid { grid-template-columns: 1fr; }
+  .span-2, .kpi-panel, .monitoring-card, .factor-card, .dist-card, .diagnosis-card {
+    grid-column: span 1;
+  }
+  .kpi-panel {
+    grid-template-columns: 1fr;
+    gap: 16px;
+  }
 }
