@@ -182,23 +182,8 @@ function Diary() {
               <div style={{marginBottom: '20px'}}>
                 <button 
                   type="button" 
+                  className={`date-picker-btn ${showDatePicker ? 'active' : ''}`}
                   onClick={() => setShowDatePicker(!showDatePicker)}
-                  style={{
-                    background: showDatePicker ? '#FFEBEE' : 'transparent', 
-                    color: showDatePicker ? '#D32F2F' : '#757575', 
-                    border: showDatePicker ? '1px solid #FFCDD2' : '1px dashed #BDBDBD', 
-                    borderRadius: '12px',
-                    padding: '10px',
-                    width: '100%',
-                    fontSize: '0.9rem', 
-                    fontWeight: '600',
-                    cursor: 'pointer', 
-                    transition: 'all 0.2s',
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                    gap: '8px'
-                  }}
                 >
                   {showDatePicker ? (
                     <><span>✖</span> Скасувати дату</>
@@ -211,11 +196,11 @@ function Diary() {
                   <div style={{
                     marginTop: '15px', 
                     animation: 'fadeIn 0.3s ease-out',
-                    background: '#FFFFFF',
-                    padding: '15px',
-                    borderRadius: '16px',
-                    border: '1px solid #E0E0E0',
-                    boxShadow: '0 4px 12px rgba(0,0,0,0.03)',
+                    background: 'var(--card-bg)',
+                    padding: '16px',
+                    borderRadius: 'var(--radius-md)',
+                    border: '1px solid var(--input-border)',
+                    boxShadow: 'var(--shadow-sm)',
                     boxSizing: 'border-box',
                     width: '100%'
                   }}>
@@ -223,8 +208,8 @@ function Diary() {
                       fontSize: '0.85rem', 
                       fontWeight: '700', 
                       display: 'block', 
-                      marginBottom: '8px', 
-                      color:'#2E7D32',
+                      marginBottom: '10px', 
+                      color:'var(--primary-color)',
                       textTransform: 'uppercase',
                       letterSpacing: '0.5px'
                     }}>
@@ -238,22 +223,27 @@ function Diary() {
                       required={showDatePicker}
                       style={{
                         width: '100%', 
-                        padding: '12px', 
-                        border: '2px solid #E8F5E9', 
-                        borderRadius: '10px',
-                        fontSize: '1rem',
+                        padding: '14px', 
+                        border: '1px solid var(--input-border)', 
+                        borderRadius: 'var(--radius-sm)',
+                        fontSize: '1.05rem',
                         fontFamily: 'inherit',
-                        backgroundColor: '#FAFAFA',
-                        color: '#333',
+                        backgroundColor: 'var(--input-bg)',
+                        color: 'var(--text-main)',
                         outline: 'none',
-                        transition: 'border-color 0.2s',
-                        boxSizing: 'border-box',
-                        maxWidth: '100%'
+                        transition: 'all 0.3s',
+                        boxSizing: 'border-box'
                       }}
-                      onFocus={(e) => e.target.style.borderColor = '#4CAF50'}
-                      onBlur={(e) => e.target.style.borderColor = '#E8F5E9'}
+                      onFocus={(e) => {
+                        e.target.style.borderColor = 'var(--primary-color)';
+                        e.target.style.boxShadow = '0 0 0 4px rgba(13, 138, 124, 0.15)';
+                      }}
+                      onBlur={(e) => {
+                        e.target.style.borderColor = 'var(--input-border)';
+                        e.target.style.boxShadow = 'none';
+                      }}
                     />
-                    <div style={{fontSize: '0.75rem', color: '#999', marginTop: '8px', textAlign: 'right'}}>
+                    <div style={{fontSize: '0.85rem', color: 'var(--text-tertiary)', marginTop: '10px', textAlign: 'right', fontWeight: '500'}}>
                       * Збережеться в хронології за вказаним часом
                     </div>
                   </div>

@@ -423,3 +423,42 @@ input[type=range]::-moz-range-thumb {
   cursor: grab;
   box-shadow: 0 2px 6px rgba(0,0,0,0.2);
 }
+
+/* --- DIARY BUTTON FIXES --- */
+.date-picker-btn {
+  background: transparent !important;
+  color: var(--text-main) !important;
+  border: 1px dashed var(--text-tertiary) !important;
+  border-radius: var(--radius-md) !important;
+  padding: 12px !important;
+  width: 100% !important;
+  font-size: 0.95rem !important;
+  font-weight: 700 !important;
+  cursor: pointer !important;
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1) !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  gap: 8px !important;
+  box-shadow: none !important;
+}
+
+.date-picker-btn:hover {
+  border-color: var(--primary-color) !important;
+  border-style: solid !important;
+  color: var(--primary-color) !important;
+  background: rgba(13, 138, 124, 0.05) !important;
+  transform: translateY(0) !important; /* disabled hover lift */
+}
+
+.date-picker-btn.active {
+  background: rgba(211, 47, 47, 0.1) !important;
+  color: #D32F2F !important;
+  border: 1px solid rgba(211, 47, 47, 0.3) !important;
+}
+
+.date-picker-btn.active:hover {
+  background: rgba(211, 47, 47, 0.15) !important;
+  border-color: rgba(211, 47, 47, 0.5) !important;
+  color: #c62828 !important;
+}
