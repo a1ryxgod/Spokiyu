@@ -10,11 +10,19 @@ const AVAILABLE_TAGS = [
 ];
 
 function Diary() {
+  const getLocalDateString = (d) => {
+    return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`;
+  };
+
+  // --- CALENDAR & MODAL STATE ---
+  const [currentMonth, setCurrentMonth] = useState(new Date());
+  const [selectedDateFilter, setSelectedDateFilter] = useState(getLocalDateString(new Date()));
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
+  // --- FORM STATE ---
   const [text, setText] = useState('');
   const [moodLevel, setMoodLevel] = useState(5);
   const [selectedTags, setSelectedTags] = useState([]);
-  
-  // --- НОВЫЕ ПЕРЕМЕННЫЕ ДЛЯ ДАТЫ ---
   const [showDatePicker, setShowDatePicker] = useState(false);
   const [customDate, setCustomDate] = useState('');
   
@@ -112,37 +120,58 @@ function Diary() {
     else setSelectedTags([...selectedTags, tag]);
   };
 
-  // ГРУППИРОВКА ПО ДНЯМ
-  const groupedHistory = history.reduce((acc, item) => {
-    const dateKey = new Date(item.date).toLocaleDateString('uk-UA', { 
-      weekday: 'long', day: 'numeric', month: 'long' 
-    });
-    if (!acc[dateKey]) acc[dateKey] = [];
-    acc[dateKey].push(item);
-    return acc;
-  }, {});
+  // --- CALENDAR LOGIC ---
+  const handlePrevMonth = () => setCurrentMonth(new Date(currentMonth.getFullYear(), currentMonth.getMonth() - 1, 1));
+  const handleNextMonth = () => setCurrentMonth(new Date(currentMonth.getFullYear(), currentMonth.getMonth() + 1, 1));
+
+  const year = currentMonth.getFullYear();
+  const month = currentMonth.getMonth();
+  const daysInMonth = new Date(year, month + 1, 0).getDate();
+  
+  let firstDay = new Date(year, month, 1).getDay();
+  const startingDay = firstDay === 0 ? 6 : firstDay - 1; // Make Monday = 0
+
+  // Filter history by selected date
+  const filteredHistory = history.filter(item => {
+    if (!selectedDateFilter) return true;
+    return item.date.startsWith(selectedDateFilter); // API returns ISO 8601 strings
+  });
 
   const calculateDailyAvg = (items) => {
+    if (items.length === 0) return 0;
     const sum = items.reduce((acc, curr) => acc + curr.mood_level, 0);
     return (sum / items.length).toFixed(1);
   };
 
+  const selectedAvg = calculateDailyAvg(filteredHistory);
+
   // Текущая дата для max атрибута
   const nowISO = new Date().toISOString().slice(0, 16);
 
+  // Formatting header date
+  const displayDateHeader = () => {
+    if (!selectedDateFilter) return 'Всі записи';
+    const d = new Date(selectedDateFilter);
+    if (getLocalDateString(d) === getLocalDateString(new Date())) return 'Сьогодні';
+    return d.toLocaleDateString('uk-UA', { weekday: 'long', day: 'numeric', month: 'long' });
+  };
+
   return (
-    <div className="diary-page-wrapper" style={{paddingTop: '30px', paddingBottom: '50px'}}>
-      <div className="diary-grid">
-        
-        {/* === ЛЕВАЯ КОЛОНКА: ФОРМА === */}
-        <aside className="diary-sidebar">
-          <div className="card form-card" style={{margin: 0}}>
-            <h2 style={{textAlign:'center', color:'#333', marginTop:0}}>Як ти зараз?</h2>
+    <div className="diary-page-wrapper" style={{paddingTop: '30px', paddingBottom: '70px'}}>
+      
+      {/* --- MODAL OVERLAY --- */}
+      {isModalOpen && (
+        <div className="modal-overlay" onClick={() => setIsModalOpen(false)}>
+          <div className="modal-content card" onClick={(e) => e.stopPropagation()}>
+            <div style={{display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '20px'}}>
+              <h2 style={{margin: 0, fontSize: '1.6rem'}}>Як ти зараз?</h2>
+              <button className="close-btn" onClick={() => setIsModalOpen(false)}>×</button>
+            </div>
             
             <form onSubmit={handleSubmit}>
               
               {/* Слайдер */}
-              <div style={{textAlign: 'center', margin: '25px 0'}}>
+              <div style={{textAlign: 'center', margin: '15px 0 25px 0'}}>
                 <div style={{fontSize: '4.5rem', marginBottom:'10px', transition:'0.2s', lineHeight: 1}}>
                   {getMoodEmoji(moodLevel)}
                 </div>
@@ -157,7 +186,7 @@ function Diary() {
               </div>
 
               {/* Теги */}
-              <div className="tags-container">
+              <div className="tags-container" style={{justifyContent: 'center', marginBottom: '25px'}}>
                 {AVAILABLE_TAGS.map(tag => (
                   <div 
                     key={tag} 
@@ -176,6 +205,7 @@ function Diary() {
                 onChange={(e) => setText(e.target.value)} 
                 placeholder="Опишіть свої думки..." 
                 required 
+                style={{marginBottom: '20px'}}
               />
 
               {/* --- ВЫБОР ДАТЫ --- */}
@@ -193,139 +223,162 @@ function Diary() {
                 </button>
 
                 {showDatePicker && (
-                  <div style={{
-                    marginTop: '15px', 
-                    animation: 'fadeIn 0.3s ease-out',
-                    background: 'var(--card-bg)',
-                    padding: '16px',
-                    borderRadius: 'var(--radius-md)',
-                    border: '1px solid var(--input-border)',
-                    boxShadow: 'var(--shadow-sm)',
-                    boxSizing: 'border-box',
-                    width: '100%'
-                  }}>
-                    <label style={{
-                      fontSize: '0.85rem', 
-                      fontWeight: '700', 
-                      display: 'block', 
-                      marginBottom: '10px', 
-                      color:'var(--primary-color)',
-                      textTransform: 'uppercase',
-                      letterSpacing: '0.5px'
-                    }}>
-                      Час події
-                    </label>
+                  <div className="date-picker-dropdown">
+                    <label>Час події</label>
                     <input 
                       type="datetime-local" 
                       max={nowISO}
                       value={customDate}
                       onChange={(e) => setCustomDate(e.target.value)}
                       required={showDatePicker}
-                      style={{
-                        width: '100%', 
-                        padding: '14px', 
-                        border: '1px solid var(--input-border)', 
-                        borderRadius: 'var(--radius-sm)',
-                        fontSize: '1.05rem',
-                        fontFamily: 'inherit',
-                        backgroundColor: 'var(--input-bg)',
-                        color: 'var(--text-main)',
-                        outline: 'none',
-                        transition: 'all 0.3s',
-                        boxSizing: 'border-box'
-                      }}
-                      onFocus={(e) => {
-                        e.target.style.borderColor = 'var(--primary-color)';
-                        e.target.style.boxShadow = '0 0 0 4px rgba(13, 138, 124, 0.15)';
-                      }}
-                      onBlur={(e) => {
-                        e.target.style.borderColor = 'var(--input-border)';
-                        e.target.style.boxShadow = 'none';
-                      }}
                     />
-                    <div style={{fontSize: '0.85rem', color: 'var(--text-tertiary)', marginTop: '10px', textAlign: 'right', fontWeight: '500'}}>
-                      * Збережеться в хронології за вказаним часом
-                    </div>
+                    <div className="date-hint">* Збережеться в хронології за вказаним часом</div>
                   </div>
                 )}
               </div>
 
-              <button type="submit" disabled={isSubmitting} style={{opacity: isSubmitting ? 0.7 : 1}}>
+              <button type="submit" disabled={isSubmitting} style={{width: '100%', opacity: isSubmitting ? 0.7 : 1}}>
                 {isSubmitting ? 'Зберігаємо...' : 'Записати'}
               </button>
             </form>
           </div>
+        </div>
+      )}
+
+      {/* --- MAIN DASHBOARD GRID --- */}
+      <div className="dashboard-grid">
+        
+        {/* === ЛЕВАЯ КОЛОНКА: НАВИГАЦИЯ & АНАЛИТИКА === */}
+        <aside className="dashboard-sidebar">
+          
+          <button className="write-post-btn" onClick={() => setIsModalOpen(true)}>
+            <span style={{fontSize: '1.2rem', marginRight: '8px'}}>✍️</span> Новий запис
+          </button>
+
+          <div className="card widget-card calendar-widget">
+            <div className="calendar-header">
+              <button onClick={handlePrevMonth} className="cal-nav-btn">&lt;</button>
+              <h4 style={{textTransform: 'capitalize', margin: 0}}>{currentMonth.toLocaleString('uk-UA', { month: 'long', year: 'numeric' })}</h4>
+              <button onClick={handleNextMonth} className="cal-nav-btn">&gt;</button>
+            </div>
+            
+            <div className="calendar-grid">
+              {['Пн', 'Вв', 'Ср', 'Чт', 'Пт', 'Сб', 'Нд'].map(d => (
+                <div key={d} className="cal-weekday">{d}</div>
+              ))}
+              
+              {Array(startingDay).fill(null).map((_, i) => (
+                <div key={`empty-${i}`} className="cal-day empty"></div>
+              ))}
+              
+              {Array(daysInMonth).fill(null).map((_, i) => {
+                const dayNum = i + 1;
+                const dStr = getLocalDateString(new Date(year, month, dayNum));
+                
+                // Збираємо середній настрій дня для кольорової точки
+                const daysItems = history.filter(item => item.date.startsWith(dStr));
+                const averageMood = calculateDailyAvg(daysItems);
+                
+                let dotColor = null;
+                if (daysItems.length > 0) {
+                  if (averageMood <= 3) dotColor = '#EF4444';
+                  else if (averageMood <= 6) dotColor = '#F59E0B';
+                  else dotColor = 'var(--primary-color)';
+                }
+
+                const isSelected = selectedDateFilter === dStr;
+                const isToday = dStr === getLocalDateString(new Date());
+
+                return (
+                  <div 
+                    key={dayNum} 
+                    className={`cal-day ${isSelected ? 'selected' : ''} ${isToday ? 'today' : ''}`}
+                    onClick={() => setSelectedDateFilter(dStr)}
+                  >
+                    <span>{dayNum}</span>
+                    {dotColor && <div className="cal-dot" style={{backgroundColor: dotColor}}></div>}
+                  </div>
+                );
+              })}
+            </div>
+          </div>
+
+          <div className="card widget-card stats-widget">
+            <h4 style={{margin: '0 0 15px 0', fontSize: '1rem', color: 'var(--text-secondary)'}}>Статистика за {displayDateHeader()}</h4>
+            <div style={{display: 'flex', alignItems: 'center', gap: '15px'}}>
+              <div style={{fontSize: '2.5rem', fontWeight: '800', lineHeight: 1, color: 'var(--text-main)'}}>
+                {selectedAvg > 0 ? selectedAvg : '-'}
+              </div>
+              <div style={{color: 'var(--text-tertiary)', fontSize: '0.9rem', lineHeight: 1.2}}>
+                 Середній показник <br/> настрою
+              </div>
+            </div>
+            <div style={{marginTop: '20px'}}>
+              {/* Тут можна додати топ тегів або іншу аналітику */}
+              <button 
+                className="btn-text" 
+                style={{fontSize: '0.9rem'}}
+                onClick={() => setSelectedDateFilter('')}
+              >
+                🔗 Показати всі записи
+              </button>
+            </div>
+          </div>
         </aside>
 
-        {/* === ПРАВАЯ КОЛОНКА: ЛЕНТА === */}
-        <main className="diary-feed">
-          <h3 style={{marginTop: 0, marginBottom: '20px', color: '#555', borderBottom: '2px solid #e0e0e0', paddingBottom: '10px'}}>
-            Хронологія
-          </h3>
+        {/* === ПРАВАЯ КОЛОНКА: ЧИСТАЯ ЛЕНТА === */}
+        <main className="dashboard-feed">
+          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end', marginBottom: '30px', borderBottom: '2px solid var(--input-border)', paddingBottom: '16px' }}>
+            <h3 style={{ margin: 0, color: 'var(--text-main)', fontSize: '2rem', fontWeight: '800', textTransform: 'capitalize' }}>
+              {displayDateHeader()}
+            </h3>
+            <span style={{color: 'var(--text-tertiary)', fontWeight: '600'}}>
+              Записів: {filteredHistory.length}
+            </span>
+          </div>
 
-          {Object.keys(groupedHistory).length === 0 ? (
-            <div style={{textAlign:'center', padding:'50px', background:'white', borderRadius:'15px', color:'#999'}}>
-              <span style={{fontSize:'3rem'}}>📅</span>
-              <p>Історія записів порожня.</p>
+          {filteredHistory.length === 0 ? (
+            <div className="empty-state card" style={{padding: '80px 20px', background: 'transparent', border: '1px dashed var(--input-border)', boxShadow: 'none'}}>
+              <span style={{fontSize:'3.5rem', display:'block', marginBottom:'16px', opacity: 0.5}}>🍃</span>
+              <p style={{fontSize: '1.2rem', color: 'var(--text-secondary)'}}>На цей день немає записів.</p>
+              <button className="btn-small" style={{marginTop: '15px'}} onClick={() => setIsModalOpen(true)}>Створити запис</button>
             </div>
           ) : (
-            Object.keys(groupedHistory).map((date) => (
-              <div key={date} className="timeline-day">
-                <div className="day-header-sticky">
-                  <span className="day-date-title">{date}</span>
-                  <span style={{fontSize:'0.9rem', color:'#666', fontWeight:'600'}}>
-                    Середній: <span style={{color: '#2E7D32'}}>{calculateDailyAvg(groupedHistory[date])}</span>
-                  </span>
-                </div>
-
-                {groupedHistory[date].map((item) => (
-                  <div key={item.id} className="timeline-entry">
-                    <div className="timeline-dot"></div>
-                    <button className="delete-btn" onClick={() => handleDelete(item.id)}>×</button>
-
-                    <div style={{display:'flex', gap:'15px', alignItems:'flex-start'}}>
-                      <div style={{fontSize:'2rem', lineHeight: 1}}>{getMoodEmoji(item.mood_level)}</div>
-                      <div style={{width: '100%'}}>
-                        
-                        {/* --- ВРЕМЯ И AI SCORE (Обновленная строка) --- */}
-                        <div style={{
-                          fontSize:'0.85rem', 
-                          fontWeight:'bold', 
-                          color:'#888', 
-                          marginBottom:'5px',
-                          display: 'flex',
-                          alignItems: 'center',
-                          gap: '10px'
+            <div className="clean-feed">
+              {filteredHistory.map((item) => (
+                <div key={item.id} className="feed-card hover-lift">
+                  
+                  <div className="feed-card-header">
+                    <div style={{display: 'flex', alignItems: 'center', gap: '12px'}}>
+                      <div className="feed-emoji">{getMoodEmoji(item.mood_level)}</div>
+                      <div>
+                        <div className="feed-time">{new Date(item.date).toLocaleTimeString('uk-UA', {hour:'2-digit', minute:'2-digit'})}</div>
+                        <div className="feed-ai-badge" style={{
+                          backgroundColor: item.sentiment_score > 0 ? '#E8F5E9' : (item.sentiment_score < 0 ? '#FFEBEE' : '#F8FAFC'),
+                          color: item.sentiment_score > 0 ? '#059669' : (item.sentiment_score < 0 ? '#DC2626' : '#64748B'),
+                          border: `1px solid ${item.sentiment_score > 0 ? '#C8E6C9' : (item.sentiment_score < 0 ? '#FFCDD2' : '#E2E8F0')}`
                         }}>
-                          <span>{new Date(item.date).toLocaleTimeString('uk-UA', {hour:'2-digit', minute:'2-digit'})}</span>
-                          
-                          {/* ПОКАЗЫВАЕМ AI ОЦЕНКУ */}
-                          <span style={{
-                            fontSize: '0.75rem',
-                            padding: '2px 6px',
-                            borderRadius: '4px',
-                            backgroundColor: item.sentiment_score > 0 ? '#E8F5E9' : (item.sentiment_score < 0 ? '#FFEBEE' : '#F5F5F5'),
-                            color: item.sentiment_score > 0 ? '#2E7D32' : (item.sentiment_score < 0 ? '#C62828' : '#666'),
-                            border: `1px solid ${item.sentiment_score > 0 ? '#C8E6C9' : (item.sentiment_score < 0 ? '#FFCDD2' : '#E0E0E0')}`
-                          }}>
-                            AI: {item.sentiment_score > 0 ? '+' : ''}{item.sentiment_score?.toFixed(2)}
-                          </span>
+                          AI: {item.sentiment_score > 0 ? '+' : ''}{item.sentiment_score?.toFixed(2)}
                         </div>
-
-                        <p style={{margin: '0 0 8px 0', color: '#333', whiteSpace: 'pre-wrap', lineHeight: '1.5'}}>
-                          {item.text}
-                        </p>
-                        {item.recommendation && (
-                          <div style={{background:'#FFF3E0', color:'#E65100', padding:'8px 12px', borderRadius:'8px', fontSize:'0.85rem', display:'inline-block'}}>
-                            💡 {item.recommendation}
-                          </div>
-                        )}
                       </div>
                     </div>
+                    
+                    <button className="delete-btn-subtle" onClick={() => handleDelete(item.id)} title="Видалити">
+                      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M3 6h18"></path><path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6"></path><path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2"></path></svg>
+                    </button>
                   </div>
-                ))}
-              </div>
-            ))
+
+                  <p className="feed-text">{item.text}</p>
+                  
+                  {item.recommendation && (
+                    <div className="feed-insight">
+                      <span style={{fontSize: '1.1rem'}}>💡</span> 
+                      <p>{item.recommendation}</p>
+                    </div>
+                  )}
+                </div>
+              ))}
+            </div>
           )}
         </main>
 

@@ -229,133 +229,219 @@ button[type="submit"]:hover {
   font-weight: bold;
 }
 
-/* 2. Таймлайн (Лінія часу) */
-.timeline-day {
-  position: relative;
-  padding-left: 20px; /* Місце для лінії зліва */
-  margin-bottom: 40px;
-}
-
-/* Вертикальна лінія */
-.timeline-day::before {
-  content: '';
-  position: absolute;
-  left: 0;
-  top: 0;
-  bottom: 0;
-  width: 2px;
-  background-color: #e0e0e0;
-  border-radius: 2px;
-}
-
-.day-header-sticky {
-  position: sticky;
-  top: 80px; /* Щоб заголовок дня "прилипав" при прокрутці */
-  background: #f4f9f4; /* Колір фону сайту */
-  z-index: 5;
-  padding: 10px 0;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
-
-.day-date-title {
-  font-weight: 800;
-  color: #333;
-  font-size: 1.1rem;
-  background: white;
-  padding: 5px 15px;
-  border-radius: 20px;
-  border: 1px solid #e0e0e0;
-  box-shadow: 0 2px 5px rgba(0,0,0,0.05);
-}
-
-/* Картка запису в таймлайні */
-.timeline-entry {
-  position: relative;
-  margin-left: 20px; /* Відступ від лінії */
-  background: white;
-  border-radius: 15px;
-  padding: 20px;
-  margin-bottom: 20px;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.05);
-  border: 1px solid transparent;
-  transition: transform 0.2s;
-}
-
-.timeline-entry:hover {
-  transform: translateX(5px);
-  border-color: #4CAF50;
-}
-
-/* Крапка на лінії */
-.timeline-dot {
-  position: absolute;
-  left: -29px; /* Вирівнюємо по лінії */
-  top: 25px;
-  width: 16px;
-  height: 16px;
-  background: white;
-  border: 4px solid #4CAF50;
-  border-radius: 50%;
-  z-index: 2;
-}
-
-/* Кнопка видалення (хрестик) */
-.delete-btn {
-  background: none;
-  border: none;
-  color: #ccc;
-  cursor: pointer;
-  font-size: 1.2rem;
-  padding: 5px;
-  position: absolute;
-  top: 15px;
-  right: 15px;
-  transition: color 0.2s;
-  width: auto;
-}
-
-.delete-btn:hover {
-  color: #e53935;
-  background: none;
-}
-/* --- DIARY LAYOUT V3 (Дві колонки) --- */
-
+/* --- DIARY DASHBOARD V4 --- */
 .diary-page-wrapper {
-  max-width: 1200px; /* Широкий контейнер */
+  width: 100%; 
+  max-width: 1400px;
   margin: 0 auto;
-  padding: 0 20px;
+  padding: 0 2vw;
+  box-sizing: border-box;
 }
 
-.diary-grid {
+.dashboard-grid {
   display: grid;
-  grid-template-columns: 380px 1fr; /* Зліва 380px, Справа все інше */
-  gap: 40px;
-  align-items: start; /* Вирівнювання по верху */
+  grid-template-columns: 340px 1fr;
+  gap: 48px;
+  align-items: start;
 }
 
-/* Ліва колонка (Форма) */
-.diary-sidebar {
+.dashboard-sidebar {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
   position: sticky;
-  top: 100px; /* Відступ від меню, щоб не прилипало */
-  height: fit-content;
+  top: 100px;
 }
 
-/* Права колонка (Історія) */
-.diary-feed {
-  min-width: 0; /* Фікс для Grid */
+/* Modal Overlay */
+.modal-overlay {
+  position: fixed;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background: rgba(15, 23, 42, 0.5);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  animation: fadeIn 0.3s ease;
 }
 
-/* Адаптивність: На планшетах і телефонах - одна колонка */
+.modal-content {
+  width: 100%;
+  max-width: 500px;
+  max-height: 90vh;
+  overflow-y: auto;
+  position: relative;
+  padding: 30px;
+  animation: slideUp 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.close-btn {
+  background: none; border: none; font-size: 2rem;
+  color: var(--text-tertiary); cursor: pointer;
+  line-height: 1; transition: color 0.2s;
+  padding: 0 10px;
+}
+.close-btn:hover { color: #ef4444; }
+
+.write-post-btn {
+  width: 100%;
+  background: var(--primary-color);
+  color: white;
+  border: none;
+  padding: 16px;
+  border-radius: var(--radius-md);
+  font-size: 1.1rem;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  box-shadow: var(--shadow-glow);
+  transition: all 0.3s ease;
+}
+.write-post-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 15px 30px -5px rgba(13, 138, 124, 0.3);
+}
+
+/* Calendar Widget */
+.calendar-widget { padding: 24px; }
+.calendar-header {
+  display: flex; justify-content: space-between; align-items: center;
+  margin-bottom: 24px;
+}
+.cal-nav-btn {
+  background: var(--bg-secondary); border: none;
+  width: 36px; height: 36px; border-radius: 10px;
+  cursor: pointer; color: var(--text-secondary);
+  font-weight: bold; transition: 0.2s;
+  display: flex; align-items: center; justify-content: center;
+}
+.cal-nav-btn:hover { background: var(--primary-color); color: white; }
+
+.calendar-grid {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 8px;
+  text-align: center;
+}
+.cal-weekday {
+  font-size: 0.85rem; font-weight: 700; color: var(--text-tertiary);
+  margin-bottom: 12px;
+}
+.cal-day {
+  height: 40px;
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
+  font-size: 0.95rem; font-weight: 600;
+  border-radius: 10px; cursor: pointer;
+  position: relative;
+  transition: all 0.2s;
+  color: var(--text-main);
+}
+.cal-day:not(.empty):hover {
+  background: var(--bg-secondary);
+  color: var(--primary-color);
+}
+.cal-day.today {
+  color: var(--primary-color);
+  font-weight: 800;
+  background: rgba(13, 138, 124, 0.05); /* Highlight today subtle */
+}
+.cal-day.selected {
+  background: var(--primary-color) !important;
+  color: white !important;
+  box-shadow: var(--shadow-glow);
+}
+.cal-dot {
+  width: 6px; height: 6px; border-radius: 50%;
+  position: absolute; bottom: 4px;
+}
+.cal-day.selected .cal-dot { border: 1px solid white; }
+
+/* Clean Feed */
+.clean-feed {
+  display: flex; flex-direction: column; gap: 32px;
+}
+.feed-card {
+  background: transparent;
+  padding: 0 0 32px 0;
+  border-bottom: 1px solid var(--input-border);
+  transition: all 0.3s;
+}
+.feed-card:last-child { border-bottom: none; }
+.feed-card-header {
+  display: flex; justify-content: space-between; align-items: flex-start;
+  margin-bottom: 20px;
+}
+.feed-emoji {
+  font-size: 3rem; line-height: 1;
+  background: var(--card-bg);
+  border-radius: 20px; padding: 12px;
+  box-shadow: var(--shadow-sm);
+  border: 1px solid var(--card-border);
+}
+.feed-time {
+  font-weight: 800; color: var(--text-secondary); font-size: 1rem;
+  margin-bottom: 6px;
+}
+.feed-ai-badge {
+  font-size: 0.75rem; font-weight: 800; padding: 4px 10px; border-radius: 8px;
+  display: inline-block;
+}
+.feed-text {
+  font-size: 1.15rem; line-height: 1.6; color: var(--text-main);
+  white-space: pre-wrap; margin: 0; font-weight: 400;
+}
+body.dark-mode .feed-text { font-weight: 300; }
+
+.feed-insight {
+  display: flex; gap: 16px; align-items: flex-start;
+  background: var(--card-bg);
+  padding: 20px; border-radius: var(--radius-md);
+  margin-top: 24px; border-left: 4px solid #F59E0B;
+  box-shadow: var(--shadow-sm);
+}
+.feed-insight p { margin: 0; font-size: 1rem; color: #D97706; font-weight: 600; line-height: 1.5; }
+
+.delete-btn-subtle {
+  background: var(--bg-color); border: 1px solid var(--card-border); color: var(--text-tertiary);
+  cursor: pointer; padding: 10px; border-radius: 12px;
+  transition: all 0.2s; box-shadow: var(--shadow-sm);
+}
+.delete-btn-subtle:hover { background: #FEF2F2; color: #DC2626; border-color: #FCA5A5; }
+
+.date-picker-dropdown {
+  margin-top: 15px; 
+  animation: fadeIn 0.3s ease-out;
+  background: var(--card-bg);
+  padding: 16px;
+  border-radius: var(--radius-md);
+  border: 1px solid var(--input-border);
+  box-shadow: var(--shadow-sm);
+  box-sizing: border-box;
+  width: 100%;
+}
+.date-picker-dropdown label {
+  font-size: 0.85rem; font-weight: 700; display: block; 
+  margin-bottom: 10px; color: var(--primary-color);
+  text-transform: uppercase; letter-spacing: 0.5px;
+}
+.date-hint {
+  font-size: 0.85rem; color: var(--text-tertiary); margin-top: 10px; 
+  text-align: right; font-weight: 500;
+}
+
 @media (max-width: 900px) {
-  .diary-grid {
-    grid-template-columns: 1fr;
-  }
-  .diary-sidebar {
-    position: static; /* Прибираємо липкість на мобілках */
-    margin-bottom: 40px;
-  }
+  .dashboard-grid { grid-template-columns: 1fr; gap: 30px; }
+  .dashboard-sidebar { position: static; }
+}
+
+@keyframes slideUp {
+  from { opacity: 0; transform: translateY(40px) scale(0.95); }
+  to { opacity: 1; transform: translateY(0) scale(1); }
 }
 
 /* --- КРАСИВИЙ ПОВЗУНОК (SLIDER) --- */
