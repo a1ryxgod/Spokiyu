@@ -96,12 +96,6 @@ function Home({ forceLanding = false }) {
           {/* ЛІВА КОЛОНКА (ОСНОВНА) */}
           <div className="main-column">
             
-            {/* Цитата */}
-            <div className="quote-block">
-              <span>“Тихий розум — це сильний розум.”</span>
-              <div className="quote-author">— Східна мудрість</div>
-            </div>
-
             {/* Статистика */}
             <div className="dashboard-stats">
               <div className="stat-card blue">
